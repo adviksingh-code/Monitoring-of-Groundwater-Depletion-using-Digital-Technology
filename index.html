@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BhuJal Nigrani — Digital Groundwater Monitoring</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,500&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="spine-track" id="spineTrack">
+  <div class="spine-fill" id="spineFill"></div>
+  <div class="spine-dot" id="spineDot"></div>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-kicker eyebrow-mono">CHE110 · ENVIRONMENTAL STUDIES · CA1</div>
+    <h1>Punjab's water table has been dropping for twenty years. We built a way to watch it in real time.</h1>
+    <p class="hero-sub">BhuJal Nigrani is a digital groundwater monitoring concept — sensors, cloud forecasting and a simple farmer-facing app — designed to close the gap between the data scientists already have and the people who need it most.</p>
+    <div class="hero-stat-row">
+      <div class="hero-stat">
+        <div class="num"><span class="counter" data-target="23" data-decimals="0">0</span><small>m</small></div>
+        <div class="label">Illustrative depth-to-water-table decline in central Punjab, 2005 → 2025</div>
+      </div>
+      <div class="hero-stat">
+        <div class="num"><span class="counter" data-target="100" data-decimals="0">0</span><small>%+</small></div>
+        <div class="label">Stage of groundwater extraction vs. annual recharge across the state</div>
+      </div>
+      <div class="hero-stat">
+        <div class="num"><span class="counter" data-target="3" data-decimals="0">0</span></div>
+        <div class="label">Layers in the system — field sensors, cloud analytics, farmer app</div>
+      </div>
+    </div>
+    <div class="hero-note">Figures are illustrative, built from publicly reported CGWB block-classification trends for this coursework project — not exact station-level measurements.</div>
+
+    <div class="live-feed" id="liveFeed">
+      <span class="live-dot"></span>
+      <span class="live-label">SIMULATED SENSOR FEED</span>
+      <span class="live-sep">·</span>
+      <span class="live-reading" id="liveReading">18.4 m</span>
+      <span class="live-sep">·</span>
+      <span class="live-sync" id="liveSync">synced just now</span>
+    </div>
+  </div>
+</header>
+
+<section id="problem">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow-mono">01 — THE PROBLEM</span>
+      <h2>Groundwater recharges slowly. Punjab is drawing it down fast.</h2>
+    </div>
+    <div class="problem-grid reveal">
+      <div class="problem-copy">
+        <p>Groundwater meets <strong>nearly nine-tenths</strong> of India's rural drinking water needs and <strong>over half</strong> its irrigation needs. Unlike a river, it fills back up slowly — so once an aquifer is over-drawn, recovery can take decades rather than years.</p>
+        <p>Punjab, home to Lovely Professional University, is among the <strong>most groundwater-stressed regions in the world</strong>. Decades of paddy-wheat cropping on subsidised tube-well power have pushed water tables down sharply, and the Central Ground Water Board now classifies most blocks here as <strong>"over-exploited."</strong></p>
+        <p>Old monitoring methods check water levels only a few times a year — too slow to warn anyone before a well runs dry. That gap, between data and the people who need it, is what this project tries to close.</p>
+      </div>
+      <div class="visual">
+<svg viewBox="0 0 360 500" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Animated underground cross-section with a rippling water surface, rising bubbles, a flashing sensor and a declining water level">
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="5" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#c0392b"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="360" height="90" fill="#cfe8fb"/>
+  <circle cx="300" cy="44" r="26" fill="#ffd166">
+    <animate attributeName="opacity" values="1;0.8;1" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <rect x="0" y="90" width="360" height="16" fill="#7fa855"/>
+  <rect x="0" y="106" width="360" height="120" fill="#caa472"/>
+  <rect x="0" y="226" width="360" height="100" fill="#b8865a"/>
+  <rect x="0" y="326" width="360" height="174" fill="#8ec6e8"/>
+  <path fill="#79b6dd">
+    <animate attributeName="d" dur="2.6s" repeatCount="indefinite"
+      values="M0,326 Q30,318 60,326 T120,326 T180,326 T240,326 T300,326 T360,326 L360,343 L0,343 Z;
+              M0,326 Q30,334 60,326 T120,326 T180,326 T240,326 T300,326 T360,326 L360,343 L0,343 Z;
+              M0,326 Q30,318 60,326 T120,326 T180,326 T240,326 T300,326 T360,326 L360,343 L0,343 Z"/>
+  </path>
+  <line x1="0" y1="268" x2="360" y2="268" stroke="#1F4E79" stroke-width="2.5" stroke-dasharray="9,6" opacity="0.65"/>
+  <line x1="180" y1="276" x2="180" y2="320" stroke="#c0392b" stroke-width="3.5" marker-end="url(#arrowhead)">
+    <animate attributeName="opacity" values="1;0.3;1" dur="1.6s" repeatCount="indefinite"/>
+  </line>
+  <rect x="160" y="18" width="16" height="482" fill="#596273"/>
+  <circle cx="168" cy="488" r="9" fill="#2ecc71">
+    <animate attributeName="r" values="7;11;7" dur="1.6s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="1;0.55;1" dur="1.6s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="90" cy="478" r="4" fill="#eaf6ff" opacity="0">
+    <animate attributeName="opacity" values="0;0.8;0" dur="3.2s" repeatCount="indefinite" begin="0s"/>
+    <animateTransform attributeName="transform" type="translate" values="0,0; 0,-120" dur="3.2s" repeatCount="indefinite" begin="0s"/>
+  </circle>
+  <circle cx="260" cy="470" r="3" fill="#eaf6ff" opacity="0">
+    <animate attributeName="opacity" values="0;0.8;0" dur="2.8s" repeatCount="indefinite" begin="1s"/>
+    <animateTransform attributeName="transform" type="translate" values="0,0; 0,-120" dur="2.8s" repeatCount="indefinite" begin="1s"/>
+  </circle>
+  <circle cx="300" cy="455" r="5" fill="#eaf6ff" opacity="0">
+    <animate attributeName="opacity" values="0;0.7;0" dur="3.6s" repeatCount="indefinite" begin="1.8s"/>
+    <animateTransform attributeName="transform" type="translate" values="0,0; 0,-120" dur="3.6s" repeatCount="indefinite" begin="1.8s"/>
+  </circle>
+  <circle cx="60" cy="120" r="11" fill="#6aa84f"/>
+  <rect x="56" y="120" width="8" height="22" fill="#6aa84f"/>
+</svg></div>
+    </div>
+  </div>
+</section>
+
+<section id="literature">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow-mono">02 — WHAT THE RESEARCH SHOWS</span>
+      <h2>The tools to measure this already exist.</h2>
+      <p>Government and scientific infrastructure already tracks groundwater at a national level — the gap is in getting that data to the person holding the well bucket.</p>
+    </div>
+
+    <div class="sim-card" id="simCard">
+      <div class="sim-top">
+        <div>
+          <div class="sim-year" id="simYear">2015</div>
+          <div class="sim-depth">Modelled depth to water table: <b id="simDepth">15.5 m</b> below ground</div>
+        </div>
+        <div class="sim-status" id="simStatus"><span class="dot"></span><span id="simStatusText">WATCH</span></div>
+      </div>
+      <div class="sim-body">
+        <div class="sim-well-wrap">
+          <svg viewBox="0 0 120 220" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="120" height="40" fill="#cfe8fb"/>
+            <rect x="0" y="40" width="120" height="8" fill="#7fa855"/>
+            <rect x="0" y="48" width="120" height="172" fill="#caa472"/>
+            <rect id="simWaterRect" x="0" y="150" width="120" height="70" fill="#5ea8d6" style="transition: y .5s ease, height .5s ease;"/>
+            <rect x="55" y="20" width="10" height="190" fill="#596273"/>
+            <circle cx="60" cy="205" r="6" fill="#2ecc71"><animate attributeName="opacity" values="1;0.5;1" dur="1.4s" repeatCount="indefinite"/></circle>
+          </svg>
+        </div>
+        <div class="sim-chart-wrap">
+          <svg viewBox="0 0 600 260" xmlns="http://www.w3.org/2000/svg">
+            <line x1="40" y1="230" x2="560" y2="230" stroke="rgba(244,238,226,0.18)" stroke-width="1"/>
+            <path d="M40,30 L170,83.3 L300,130 L430,183.3 L560,230" fill="none" stroke="#4FB4D8" stroke-width="2.5" stroke-linejoin="round"/>
+            <circle id="simMarker" cx="300" cy="130" r="6.5" fill="#C97B3D" stroke="#F4EEE2" stroke-width="2"/>
+            <text x="40" y="250" font-size="12" fill="#C9C2B4" font-family="IBM Plex Mono, monospace">2005</text>
+            <text x="536" y="250" font-size="12" fill="#C9C2B4" font-family="IBM Plex Mono, monospace">2025</text>
+          </svg>
+        </div>
+      </div>
+      <input type="range" class="sim-slider" id="simSlider" min="2005" max="2025" step="1" value="2015">
+      <div class="sim-hint">Drag the slider — this is the same kind of status a farmer would see on the BhuJal Nigrani app for their own borewell.</div>
+    </div>
+
+    <div class="fact-list reveal-stagger">
+      <div class="fact">
+        <div class="yr">NASA / GRACE</div>
+        <div>
+          <h3>Satellite gravimetry confirms rapid loss</h3>
+          <p>A widely cited study using NASA's GRACE satellite mission showed groundwater in north-western India — Punjab, Haryana, Rajasthan — depleting fast, mainly from unsustainable irrigation rather than lower rainfall.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <div class="yr">CGWB</div>
+        <div>
+          <h3>Most Punjab blocks are "Over-Exploited"</h3>
+          <p>The Central Ground Water Board classifies blocks as Safe, Semi-Critical, Critical or Over-Exploited based on extraction-to-recharge ratio. Most of central and southern Punjab now sits in the worst category.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <div class="yr">India-WRIS / DWLR</div>
+        <div>
+          <h3>Digital infrastructure already exists</h3>
+          <p>India-WRIS integrates data from thousands of monitoring stations. CGWB's growing network of Digital Water Level Recorders automatically transmits readings, replacing old manual quarterly checks.</p>
+        </div>
+      </div>
+      <div class="fact">
+        <div class="yr">THE GAP</div>
+        <div>
+          <h3>Dashboards are built for hydrologists, not farmers</h3>
+          <p>This data rarely reaches the individual farmer in a form they can act on. That's the specific gap BhuJal Nigrani is designed to close.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="solution">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow-mono">03 — THE PRODUCT</span>
+      <h2>BhuJal Nigrani — "Groundwater Watch"</h2>
+      <p>A three-layer system that turns a borewell reading into a plain-language alert a farmer can act on the same day.</p>
+    </div>
+    <div class="flow-card reveal">
+      <div class="flow-row">
+        <div class="flow-box">Borewell Sensor</div>
+        <div class="flow-connector"><div class="flow-packet"></div></div>
+        <div class="flow-box">IoT / GSM</div>
+        <div class="flow-connector"><div class="flow-packet"></div></div>
+        <div class="flow-box">Cloud + AI</div>
+        <div class="flow-connector"><div class="flow-packet"></div></div>
+        <div class="flow-box">Dashboard / App</div>
+        <div class="flow-connector"><div class="flow-packet"></div></div>
+        <div class="flow-box">Farmer</div>
+      </div>
+    </div>
+
+    <div class="term-card reveal">
+      <div class="term-bar">
+        <span class="term-dot"></span><span class="term-dot"></span><span class="term-dot"></span>
+        <span class="term-title">bhujal-nigrani · live processing (simulated)</span>
+      </div>
+      <div class="term-body" id="termBody"></div>
+    </div>
+
+    <div class="steps reveal-stagger">
+      <div class="step">
+        <div class="step-no">STEP 1</div>
+        <h3>Sense</h3>
+        <p>A low-cost sensor inside the borewell — similar in principle to CGWB's DWLR units — checks the water level every few hours.</p>
+      </div>
+      <div class="step">
+        <div class="step-no">STEP 2</div>
+        <h3>Predict</h3>
+        <p>Readings travel over GSM or LoRaWAN to the cloud, where they're combined with India-WRIS and CGWB data and forecast 1–3 months ahead.</p>
+      </div>
+      <div class="step">
+        <div class="step-no">STEP 3</div>
+        <h3>Act</h3>
+        <p>A multilingual app shows a simple green/yellow/red status with SMS fallback and crop advice — no internet required to receive an alert.</p>
+      </div>
+    </div>
+
+    <div class="check-card reveal">
+      <div class="check-top">
+        <div class="check-label">TRY STEP 3 YOURSELF — ENTER A DEPTH READING</div>
+        <div class="check-value"><span id="checkValue">21.0</span> m</div>
+      </div>
+      <input type="range" class="check-slider" id="checkSlider" min="5" max="28" step="0.1" value="21">
+      <div class="check-result" id="checkResult">
+        <div class="check-phone-icon" id="checkIcon">📟</div>
+        <div>
+          <div class="check-msg-label">SIMULATED SMS ALERT TO FARMER</div>
+          <div class="check-msg-text" id="checkMsg"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tele-card reveal">
+      <div class="tele-top">
+        <div class="check-label">2. LIVE TELEMETRY CONTROL PANEL (SIMULATED)</div>
+        <p>Covers Punjab, Haryana &amp; Rajasthan — the north-western belt the GRACE satellite study (Section 2) found depleting fastest. Select a district to see how the dashboard would shift:</p>
+      </div>
+      <select class="tele-select" id="teleSelect">
+        <optgroup label="Punjab">
+          <option value="amritsar">Amritsar</option>
+          <option value="barnala">Barnala</option>
+          <option value="bathinda">Bathinda</option>
+          <option value="faridkot">Faridkot</option>
+          <option value="fatehgarhsahib">Fatehgarh Sahib</option>
+          <option value="fazilka">Fazilka</option>
+          <option value="ferozepur">Ferozepur</option>
+          <option value="gurdaspur">Gurdaspur</option>
+          <option value="hoshiarpur">Hoshiarpur</option>
+          <option value="jalandhar">Jalandhar</option>
+          <option value="kapurthala">Kapurthala</option>
+          <option value="ludhiana">Ludhiana</option>
+          <option value="malerkotla">Malerkotla</option>
+          <option value="mansa">Mansa</option>
+          <option value="moga">Moga</option>
+          <option value="pathankot">Pathankot</option>
+          <option value="patiala">Patiala</option>
+          <option value="phagwara">Phagwara (town, near LPU campus)</option>
+          <option value="rupnagar">Rupnagar</option>
+          <option value="mohali">SAS Nagar (Mohali)</option>
+          <option value="sangrur" selected>Sangrur</option>
+          <option value="sbsnagar">Shaheed Bhagat Singh Nagar</option>
+          <option value="muktsar">Sri Muktsar Sahib</option>
+          <option value="tarntaran">Tarn Taran</option>
+        </optgroup>
+        <optgroup label="Haryana">
+          <option value="ambala">Ambala</option>
+          <option value="fatehabad">Fatehabad</option>
+          <option value="hisar">Hisar</option>
+          <option value="jind">Jind</option>
+          <option value="kaithal">Kaithal</option>
+          <option value="karnal">Karnal</option>
+          <option value="kurukshetra">Kurukshetra</option>
+          <option value="panipat">Panipat</option>
+          <option value="sirsa">Sirsa</option>
+          <option value="sonipat">Sonipat</option>
+        </optgroup>
+        <optgroup label="Rajasthan">
+          <option value="alwar">Alwar</option>
+          <option value="bikaner">Bikaner</option>
+          <option value="churu">Churu</option>
+          <option value="ganganagar">Sri Ganganagar</option>
+          <option value="hanumangarh">Hanumangarh</option>
+          <option value="jaipur">Jaipur</option>
+          <option value="jhunjhunu">Jhunjhunu</option>
+          <option value="jodhpur">Jodhpur</option>
+          <option value="nagaur">Nagaur</option>
+          <option value="sikar">Sikar</option>
+        </optgroup>
+      </select>
+      <div class="tele-stats">
+        <div class="tele-stat" id="teleDepthCard">
+          <span class="tag">WATER TABLE DEPTH</span>
+          <span class="val" id="teleDepth">—</span>
+        </div>
+        <div class="tele-stat" id="teleStatusCard">
+          <span class="tag">CGWB STATUS</span>
+          <span class="val" id="teleStatus">—</span>
+        </div>
+        <div class="tele-stat" id="teleCropCard">
+          <span class="tag">SMART CROP RECOMMENDATION</span>
+          <span class="val" id="teleCrop">—</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="significance">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow-mono">04 — WHY IT MATTERS</span>
+      <h2>Better information changes decisions.</h2>
+    </div>
+    <div class="sig-grid reveal">
+      <div class="sig-col">
+        <div class="sig-card env">
+          <span class="tag">ENVIRONMENTAL</span>
+          <h3>Act before the point of no return</h3>
+          <p>Early alerts support timely action — micro-irrigation, a crop change — before an aquifer tips into "Over-Exploited," supporting UN SDG 6, Clean Water and Sanitation.</p>
+        </div>
+        <div class="sig-card econ">
+          <span class="tag">ECONOMIC</span>
+          <h3>Fewer failed crops, fewer deep wells</h3>
+          <p>Advance warning and crop guidance help farmers avoid failed harvests and the rising cost of drilling ever-deeper borewells.</p>
+        </div>
+      </div>
+      <div class="sig-col">
+        <div class="sig-card soc">
+          <span class="tag">SOCIAL</span>
+          <h3>Science, in the language of the person who needs it</h3>
+          <p>Local-language SMS and a simple app bring groundwater data to smallholder farmers directly — not just to officials — while aggregated data helps panchayats target recharge structures under schemes like Atal Bhujal Yojana.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-block">
+        <h3>Project</h3>
+        <div>Monitoring of Groundwater Depletion<br>using Digital Technology</div>
+      </div>
+      <div class="foot-block">
+        <h3>Course</h3>
+        <div>CHE110 · Environmental Studies<br>Academic Task 1 (CA1)</div>
+      </div>
+      <div class="foot-block">
+        <h3>Team</h3>
+        <div>Advik Singh Parmar — RK3P26SPA07<br>Jayantha Hariyaksha E · Vaibhav Sharma</div>
+      </div>
+      <div class="foot-block">
+        <h3>Institution</h3>
+        <div>Lovely Professional University</div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>Built as coursework for CA1 — figures are illustrative unless otherwise cited.</span>
+      <span>BhuJal Nigrani</span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+
+</body>
+</html>
